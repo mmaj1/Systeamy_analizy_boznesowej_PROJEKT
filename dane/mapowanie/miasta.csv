@@ -1,16 +1,16 @@
 ﻿city;miasto;nazwa_gus;kod_gus;teryt_powiat;wojewodztwo
-warszawa;Warszawa;Powiat m. st. Warszawa;;1465;mazowieckie
-krakow;Kraków;Powiat m. Kraków;;1261;małopolskie
-lodz;Łódź;Powiat m. Łódź;;1061;łódzkie
-wroclaw;Wrocław;Powiat m. Wrocław;;0264;dolnośląskie
-poznan;Poznań;Powiat m. Poznań;;3064;wielkopolskie
-gdansk;Gdańsk;Powiat m. Gdańsk;;2261;pomorskie
-gdynia;Gdynia;Powiat m. Gdynia;;2262;pomorskie
-szczecin;Szczecin;Powiat m. Szczecin;;3262;zachodniopomorskie
-bydgoszcz;Bydgoszcz;Powiat m. Bydgoszcz;;0461;kujawsko-pomorskie
-lublin;Lublin;Powiat m. Lublin;;0663;lubelskie
-katowice;Katowice;Powiat m. Katowice;;2469;śląskie
-bialystok;Białystok;Powiat m. Białystok;;2061;podlaskie
-czestochowa;Częstochowa;Powiat m. Częstochowa;;2464;śląskie
-radom;Radom;Powiat m. Radom;;1463;mazowieckie
-rzeszow;Rzeszów;Powiat m. Rzeszów;;1863;podkarpackie
+warszawa;Warszawa;Powiat m. st. Warszawa;1465000;1465;mazowieckie
+krakow;Kraków;Powiat m. Kraków;1261000;1261;małopolskie
+lodz;Łódź;Powiat m. Łódź;1061000;1061;łódzkie
+wroclaw;Wrocław;Powiat m. Wrocław;0264000;0264;dolnośląskie
+poznan;Poznań;Powiat m. Poznań;3064000;3064;wielkopolskie
+gdansk;Gdańsk;Powiat m. Gdańsk;2261000;2261;pomorskie
+gdynia;Gdynia;Powiat m. Gdynia;2262000;2262;pomorskie
+szczecin;Szczecin;Powiat m. Szczecin;3262000;3262;zachodniopomorskie
+bydgoszcz;Bydgoszcz;Powiat m. Bydgoszcz;0461000;0461;kujawsko-pomorskie
+lublin;Lublin;Powiat m. Lublin;0663000;0663;lubelskie
+katowice;Katowice;Powiat m. Katowice;2469000;2469;śląskie
+bialystok;Białystok;Powiat m. Białystok;2061000;2061;podlaskie
+czestochowa;Częstochowa;Powiat m. Częstochowa;2464000;2464;śląskie
+radom;Radom;Powiat m. Radom;1463000;1463;mazowieckie
+rzeszow;Rzeszów;Powiat m. Rzeszów;1863000;1863;podkarpackie
