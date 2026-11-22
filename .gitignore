@@ -1,0 +1,6 @@
+# Power BI temp/cache
+*.pbix.bak
+.pbi/
+~$*
+Thumbs.db
+desktop.ini
