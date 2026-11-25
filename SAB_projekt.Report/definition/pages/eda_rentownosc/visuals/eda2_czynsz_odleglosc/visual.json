@@ -1,0 +1,126 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "eda2_czynsz_odleglosc",
+  "position": {
+    "x": 20,
+    "y": 575,
+    "z": 5,
+    "width": 620,
+    "height": 490,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_Najem"
+                    }
+                  },
+                  "Property": "id"
+                }
+              },
+              "queryRef": "F_Najem.id",
+              "nativeQueryRef": "id"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D_Miasto"
+                    }
+                  },
+                  "Property": "miasto"
+                }
+              },
+              "queryRef": "D_Miasto.miasto",
+              "nativeQueryRef": "miasto"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "F_Najem"
+                        }
+                      },
+                      "Property": "centreDistance"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(F_Najem.centreDistance)",
+              "nativeQueryRef": "Średnia centreDistance",
+              "displayName": "Odległość od centrum, km"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "F_Najem"
+                        }
+                      },
+                      "Property": "cena_m2"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(F_Najem.cena_m2)",
+              "nativeQueryRef": "Średnia cena_m2",
+              "displayName": "Czynsz za m², zł"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Czynsz za m² a odległość od centrum (oferty najmu, próbka Power BI)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

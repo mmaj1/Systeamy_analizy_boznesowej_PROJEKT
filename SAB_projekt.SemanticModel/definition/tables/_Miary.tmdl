@@ -1,27 +1,33 @@
 table _Miary
 	lineageTag: e0998ebf-91d0-53d3-9133-852190ba617b
 
-	measure 'Mediana ceny m2' = MEDIAN(F_Sprzedaz[cena_m2])
+	measure 'Mediana ceny m2' =
+			-- bez outlierów (1.-99. percentyl w mieście)
+			CALCULATE(MEDIAN(F_Sprzedaz[cena_m2]), F_Sprzedaz[czy_outlier] = FALSE())
 		formatString: #,0
 		displayFolder: Ceny
 		lineageTag: b0ee3d0f-179f-5708-8630-c0620b2edb5a
 
-	measure 'Mediana czynszu m2' = MEDIAN(F_Najem[cena_m2])
+	measure 'Mediana czynszu m2' = CALCULATE(MEDIAN(F_Najem[cena_m2]), F_Najem[czy_outlier] = FALSE())
 		formatString: #,0.00
 		displayFolder: Ceny
 		lineageTag: b03e5ba3-e50a-57b8-846d-1ad573acffd9
 
 	measure 'Rentownosc brutto' =
+			-- wspólny okres sprzedaży i najmu (11.2023-06.2024); pusta, gdy w komórce < 30 ofert
 			VAR okres = FILTER(ALL(D_Kalendarz[Date]), D_Kalendarz[Date] >= DATE(2023,11,1))
-			RETURN DIVIDE(
-			    CALCULATE([Mediana czynszu m2]) * 12,
-			    CALCULATE([Mediana ceny m2], KEEPFILTERS(okres)))
+			VAR nNajem = CALCULATE(COUNTROWS(F_Najem), F_Najem[czy_outlier] = FALSE())
+			VAR nSprzedaz = CALCULATE(COUNTROWS(F_Sprzedaz), F_Sprzedaz[czy_outlier] = FALSE(), KEEPFILTERS(okres))
+			RETURN IF(nNajem >= 30 && nSprzedaz >= 30,
+			    DIVIDE(
+			        [Mediana czynszu m2] * 12,
+			        CALCULATE([Mediana ceny m2], KEEPFILTERS(okres))))
 		formatString: 0.00%
 		displayFolder: KPI
 		lineageTag: 7f0223fd-2538-5de5-87a8-d3ab56cad145
 
 	measure 'Obciazenie placy' =
-			VAR czynsz = CALCULATE(MEDIAN(F_Najem[price]), F_Najem[segment_metraz] = "40-60")
+			VAR czynsz = CALCULATE(MEDIAN(F_Najem[price]), F_Najem[segment_metraz] = "40-60", F_Najem[czy_outlier] = FALSE())
 			VAR placa  = CALCULATE(AVERAGE(F_GUS_Rok[wynagrodzenie]), F_GUS_Rok[rok] = 2024)
 			RETURN DIVIDE(czynsz, placa)
 		formatString: 0.0%
@@ -80,6 +86,49 @@ table _Miary
 		displayFolder: Liczebnosci
 		lineageTag: 67e45f81-a21f-5ef4-bd71-4646d2a9d78b
 
+	measure 'Zmiana czynszu m2 %' =
+			VAR p = CALCULATE([Mediana czynszu m2], D_Kalendarz[Date] = DATE(2023,11,1))
+			VAR k = CALCULATE([Mediana czynszu m2], D_Kalendarz[Date] = DATE(2024,6,1))
+			RETURN DIVIDE(k - p, p)
+		formatString: 0.0%
+		displayFolder: KPI
+		lineageTag: efe02094-584c-57fa-ac38-ffc613f2c698
+
+	measure 'Liczba outlierow sprzedazy' = CALCULATE(COUNTROWS(F_Sprzedaz), F_Sprzedaz[czy_outlier] = TRUE())
+		formatString: #,0
+		displayFolder: Liczebnosci
+		lineageTag: 7e6f85bd-4514-5497-a37d-15399d22d049
+
+	measure 'Liczba outlierow najmu' = CALCULATE(COUNTROWS(F_Najem), F_Najem[czy_outlier] = TRUE())
+		formatString: #,0
+		displayFolder: Liczebnosci
+		lineageTag: 461c2add-e24e-5d08-b014-6c08952707d3
+
+	measure 'Czynsz m2 P01' = PERCENTILE.INC(F_Najem[cena_m2], 0.01)
+		formatString: #,0.0
+		displayFolder: Rozklad czynszu
+		lineageTag: 4f5bc441-99bd-5ea8-b852-235bf62447b5
+
+	measure 'Czynsz m2 P25' = PERCENTILE.INC(F_Najem[cena_m2], 0.25)
+		formatString: #,0.0
+		displayFolder: Rozklad czynszu
+		lineageTag: 238e8b10-ed2c-5fbd-9f33-eebc2f2f9a3d
+
+	measure 'Czynsz m2 mediana (wszystkie)' = MEDIAN(F_Najem[cena_m2])
+		formatString: #,0.0
+		displayFolder: Rozklad czynszu
+		lineageTag: d5f0b226-a137-5a13-b386-22b728817583
+
+	measure 'Czynsz m2 P75' = PERCENTILE.INC(F_Najem[cena_m2], 0.75)
+		formatString: #,0.0
+		displayFolder: Rozklad czynszu
+		lineageTag: 075f7492-0612-5f54-9d13-287015943d8d
+
+	measure 'Czynsz m2 P99' = PERCENTILE.INC(F_Najem[cena_m2], 0.99)
+		formatString: #,0.0
+		displayFolder: Rozklad czynszu
+		lineageTag: 2153f23e-70b7-573d-b4a5-4bc004797bee
+
 	measure 'Wynagrodzenie 2024' = CALCULATE(AVERAGE(F_GUS_Rok[wynagrodzenie]), F_GUS_Rok[rok] = 2024)
 		formatString: #,0
 		displayFolder: GUS
@@ -110,4 +159,3 @@ table _Miary
 	annotation PBI_ResultType = Table
 
 	annotation PBI_NavigationStepName = Navigation
-

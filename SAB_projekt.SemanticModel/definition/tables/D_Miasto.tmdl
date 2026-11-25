@@ -12,8 +12,8 @@ table D_Miasto
 
 	column miasto
 		dataType: string
-		lineageTag: 34c05118-f2c2-5648-a871-14461b5f3517
 		dataCategory: City
+		lineageTag: 34c05118-f2c2-5648-a871-14461b5f3517
 		summarizeBy: none
 		sourceColumn: miasto
 
@@ -46,8 +46,8 @@ table D_Miasto
 
 	column wojewodztwo
 		dataType: string
-		lineageTag: a5f06934-8ccc-5247-b037-e0ad8994c461
 		dataCategory: StateOrProvince
+		lineageTag: a5f06934-8ccc-5247-b037-e0ad8994c461
 		summarizeBy: none
 		sourceColumn: wojewodztwo
 
@@ -67,4 +67,3 @@ table D_Miasto
 				    Typy
 
 	annotation PBI_ResultType = Table
-

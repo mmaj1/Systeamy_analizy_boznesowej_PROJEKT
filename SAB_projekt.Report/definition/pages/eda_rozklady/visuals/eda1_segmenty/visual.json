@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "eda1_segmenty",
+  "position": {
+    "x": 650,
+    "y": 575,
+    "z": 5,
+    "width": 620,
+    "height": 490,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "hundredPercentStackedBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D_Miasto"
+                    }
+                  },
+                  "Property": "miasto"
+                }
+              },
+              "queryRef": "D_Miasto.miasto",
+              "nativeQueryRef": "miasto"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D_Segment"
+                    }
+                  },
+                  "Property": "segment"
+                }
+              },
+              "queryRef": "D_Segment.segment",
+              "nativeQueryRef": "segment"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Liczba wierszy najmu"
+                }
+              },
+              "queryRef": "_Miary.Liczba wierszy najmu",
+              "nativeQueryRef": "Liczba wierszy najmu"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Udział segmentów metrażu w ofertach najmu'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

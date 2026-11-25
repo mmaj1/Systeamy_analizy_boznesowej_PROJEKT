@@ -1,0 +1,101 @@
+{
+ "calosc": {
+  "rentownosc_brutto": 0.05850517229567719,
+  "mediana_ceny_m2": 12989.096844944856,
+  "mediana_czynszu_m2": 65.93820648078372
+ },
+ "prog_6pct_miasta_powyzej": [
+  "Radom",
+  "Katowice",
+  "Częstochowa",
+  "Bydgoszcz",
+  "Szczecin",
+  "Łódź",
+  "Lublin",
+  "Rzeszów"
+ ],
+ "obciazenie_powyzej_30pct": [
+  "Wrocław",
+  "Warszawa"
+ ],
+ "mediana_rentownosci_miast": 0.06034490032696973,
+ "outliery": {
+  "sprzedaz": 3872,
+  "najem": 1286,
+  "sprzedaz_pct": 0.019798740080176715,
+  "najem_pct": 0.018151791889564835
+ },
+ "wplyw_outlierow": {
+  "mediana_ceny_m2_z": 12978.72340425532,
+  "mediana_ceny_m2_bez": 12989.096844944856,
+  "mediana_czynszu_m2_z": 65.95744680851064,
+  "mediana_czynszu_m2_bez": 65.93820648078372,
+  "rentownosc_z": 0.05832026875699888,
+  "rentownosc_bez": 0.05850517229567719
+ },
+ "duplikaty": {
+  "sprzedaz_unikalne_id": 92967,
+  "najem_unikalne_id": 37941,
+  "sprzedaz_wiersze": 195568,
+  "najem_wiersze": 70847
+ },
+ "hipotezy": {
+  "H1": {
+   "rentownosc_male": {
+    "Łódź": 0.0669941391941392,
+    "Częstochowa": 0.07092198581560283,
+    "Bydgoszcz": 0.0704188181296615
+   },
+   "rentownosc_duze": {
+    "Warszawa": 0.05531707317073171,
+    "Kraków": 0.048992248062015506,
+    "Gdańsk": 0.057679798927313876
+   },
+   "srednia_male": 0.06944498104646785,
+   "srednia_duze": 0.05399637338668703,
+   "spearman_ludnosc_rentownosc": -0.5249999999999999,
+   "spearman_cena_rentownosc": -0.8892857142857141
+  },
+  "H2": {
+   "miasta_gdzie_<40_wyzsza_niz_>80": 8,
+   "mediana_<40": 0.06383472884743505,
+   "mediana_>80": 0.05964912280701754,
+   "calosc_<40": 0.05444801463728993,
+   "calosc_>80": 0.06672550750220653
+  },
+  "H3": {
+   "spearman_saldo_zmiana_ceny": 0.6071428571428571,
+   "srednia_zmiana_saldo_dodatnie": 0.17004842145037832,
+   "srednia_zmiana_saldo_ujemne": 0.13221457537900855,
+   "miasta_saldo_dodatnie": [
+    "Katowice",
+    "Rzeszów",
+    "Wrocław",
+    "Gdańsk",
+    "Warszawa",
+    "Kraków"
+   ],
+   "spearman_nowa_podaz_zmiana_ceny": 0.3857142857142856
+  },
+  "H4": {
+   "miasta_gdzie_5-10_wyzsza_niz_<2": 4,
+   "miasta_z_danymi": 10,
+   "miasta_monotonicznie_rosnaca_<2_2-5_5-10": 1,
+   "mediana_miast": {
+    "<2 km": 0.0621192247567253,
+    "2-5 km": 0.059923601092803126,
+    "5-10 km": 0.056094926270449125,
+    ">10 km": 0.05638340459637294
+   }
+  },
+  "H5": {
+   "miasta_gdzie_nowe_nizsza": 4,
+   "miasta_z_danymi": 14,
+   "mediana_nowe": 0.0603629822819895,
+   "mediana_starsze": 0.05749301029678982
+  },
+  "P7": {
+   "spearman_nasycenie_czynsz": 0.7024131491131288
+  }
+ }
+}

@@ -1,7 +1,9 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
   "pageOrder": [
+    "eda_rozklady",
+    "eda_rentownosc",
     "3305800d271a9ddd1ce4"
   ],
-  "activePageName": "3305800d271a9ddd1ce4"
+  "activePageName": "eda_rozklady"
 }

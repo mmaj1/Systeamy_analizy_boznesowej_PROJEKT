@@ -8,15 +8,15 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["SciezkaDanych", "D_Miasto", "D_Kalendarz", "D_Segment", "F_Sprzedaz", "F_Najem", "GUS_Surowe", "F_GUS_Rok", "_Miary"]
+annotation PBI_QueryOrder = ["SciezkaDanych", "D_Miasto", "D_Kalendarz", "D_Segment", "D_Odleglosc", "F_Sprzedaz", "F_Najem", "GUS_Surowe", "F_GUS_Rok", "_Miary"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
 ref table D_Miasto
 ref table D_Kalendarz
 ref table D_Segment
+ref table D_Odleglosc
 ref table F_Sprzedaz
 ref table F_Najem
 ref table F_GUS_Rok
 ref table _Miary
-

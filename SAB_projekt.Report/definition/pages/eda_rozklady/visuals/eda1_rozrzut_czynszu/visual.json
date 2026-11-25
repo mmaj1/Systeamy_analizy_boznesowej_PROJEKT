@@ -1,0 +1,162 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "eda1_rozrzut_czynszu",
+  "position": {
+    "x": 1280,
+    "y": 90,
+    "z": 3,
+    "width": 620,
+    "height": 470,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D_Miasto"
+                    }
+                  },
+                  "Property": "miasto"
+                }
+              },
+              "queryRef": "D_Miasto.miasto",
+              "nativeQueryRef": "miasto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Czynsz m2 P01"
+                }
+              },
+              "queryRef": "_Miary.Czynsz m2 P01",
+              "nativeQueryRef": "Czynsz m2 P01"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Czynsz m2 P25"
+                }
+              },
+              "queryRef": "_Miary.Czynsz m2 P25",
+              "nativeQueryRef": "Czynsz m2 P25"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Czynsz m2 mediana (wszystkie)"
+                }
+              },
+              "queryRef": "_Miary.Czynsz m2 mediana (wszystkie)",
+              "nativeQueryRef": "Czynsz m2 mediana (wszystkie)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Czynsz m2 P75"
+                }
+              },
+              "queryRef": "_Miary.Czynsz m2 P75",
+              "nativeQueryRef": "Czynsz m2 P75"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Czynsz m2 P99"
+                }
+              },
+              "queryRef": "_Miary.Czynsz m2 P99",
+              "nativeQueryRef": "Czynsz m2 P99"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Miary"
+                    }
+                  },
+                  "Property": "Liczba outlierow najmu"
+                }
+              },
+              "queryRef": "_Miary.Liczba outlierow najmu",
+              "nativeQueryRef": "Liczba outlierow najmu"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Miary"
+                  }
+                },
+                "Property": "Czynsz m2 mediana (wszystkie)"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Rozrzut czynszu za m² wg miast (percentyle; zamiast boxplotu)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

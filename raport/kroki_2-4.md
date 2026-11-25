@@ -19,12 +19,13 @@ Kontrola po odświeżeniu. Te liczby wierszy policzyłem niezależnie w Pythonie
 
 | Zapytanie | Wiersze | Kolumny | Ładowane do modelu |
 |---|---:|---:|---|
-| `F_Sprzedaz` | 195 568 | 36 | tak |
-| `F_Najem` | 70 847 | 36 | tak |
+| `F_Sprzedaz` | 195 568 | 38 | tak |
+| `F_Najem` | 70 847 | 38 | tak |
 | `F_GUS_Rok` | 30 | 8 | tak |
 | `D_Miasto` | 15 | 6 | tak |
 | `D_Kalendarz` | 11 | 5 | tak |
 | `D_Segment` | 4 | 3 | tak |
+| `D_Odleglosc` | 4 | 3 | tak |
 | `_Miary` | 0 | 1 (ukryta) | tak, tylko miary |
 | `GUS_Surowe` | 3 902 (wszystkie jednostki BDL) | 5 | nie (etap pośredni) |
 | `SciezkaDanych` | parametr | – | nie |
@@ -33,7 +34,7 @@ Kontrola po odświeżeniu. Te liczby wierszy policzyłem niezależnie w Pythonie
 
 Wszystkie zapytania czytają pliki przez jedno źródło `Folder.Files(SciezkaDanych)`. Dzięki temu Power BI nie pyta o poziomy prywatności przy łączeniu plików.
 
-- **F_Sprzedaz / F_Najem**: pliki z `dane\kaggle\` rozdzielone filtrem nazwy (zawiera / nie zawiera `rent`). `miesiac` pochodzi z nazwy pliku (`…_2023_08.csv` → 2023-08-01). Typy są ustawione z kulturą **en-US** (kropka dziesiętna), więc wynik nie zależy od ustawień regionalnych pliku. Kolumny `has*` zamienione z `yes/no` na `true/false`. Dodane kolumny: `cena_m2`, `segment_metraz`, `segment_odleglosc`, `nowy_budynek` i `ostatnia_oferta`.
+- **F_Sprzedaz / F_Najem**: pliki z `dane\kaggle\` rozdzielone filtrem nazwy (zawiera / nie zawiera `rent`). `miesiac` pochodzi z nazwy pliku (`…_2023_08.csv` → 2023-08-01). Typy są ustawione z kulturą **en-US** (kropka dziesiętna), więc wynik nie zależy od ustawień regionalnych pliku. Kolumny `has*` zamienione z `yes/no` na `true/false`. Dodane kolumny: `cena_m2`, `segment_metraz`, `segment_odleglosc`, `nowy_budynek`, `ostatnia_oferta`, `czy_outlier` (1.–99. percentyl ceny/czynszu za m² w mieście) i `cena_m2_przedzial` (do histogramów).
 - **GUS_Surowe**: 5 eksportów BDL, każdy z własnym filtrem wymiaru. Typy z kulturą **pl-PL** (przecinek dziesiętny).
 
   | Plik | Wskaźnik | Filtr |
@@ -48,6 +49,7 @@ Wszystkie zapytania czytają pliki przez jedno źródło `Folder.Files(SciezkaDa
 - **D_Miasto**: `dane\mapowanie\miasta.csv` (separator `;`). Kody zostają tekstem, żeby nie zgubić wiodącego zera (`0264000`).
 - **D_Kalendarz**: kalendarz **miesięczny** 2023-08…2024-06 w Power Query, kolumny `Date`, `Rok`, `Miesiac`, `MiesiacNr` i `wspolny_okres`.
 - **D_Segment**: 4 segmenty metrażu z kolumną `kolejnosc` (sortowanie).
+- **D_Odleglosc**: 4 segmenty odległości od centrum. Dzięki temu wymiarowi rentowność wg odległości filtruje jednocześnie sprzedaż i najem.
 
 > Do raportu: zrób screen listy zapytań w Power Query (lewy panel) i paska z liczbą wierszy.
 
@@ -163,12 +165,14 @@ Relacje (wszystkie typu wiele-do-jednego, filtrowanie pojedyncze od wymiaru do f
 | F_Sprzedaz[city], F_Najem[city], F_GUS_Rok[city] | D_Miasto[city] |
 | F_Sprzedaz[miesiac], F_Najem[miesiac] | D_Kalendarz[Date] |
 | F_Sprzedaz[segment_metraz], F_Najem[segment_metraz] | D_Segment[segment] |
+| F_Sprzedaz[segment_odleglosc], F_Najem[segment_odleglosc] | D_Odleglosc[segment_odleglosc] |
 
 Miary w tabeli `_Miary`, w folderach:
 
-- **Ceny**: Mediana ceny m2, Mediana czynszu m2.
-- **KPI**: Rentownosc brutto, Obciazenie placy, Oferty najmu na 10 tys, Saldo migracji na 1000, Nowa podaz na 1000, Zmiana ceny m2 %.
-- **Liczebności**: liczba ofert (DISTINCTCOUNT id) i liczba wierszy, osobno dla sprzedaży i najmu.
+- **Ceny**: Mediana ceny m2 i Mediana czynszu m2, obie bez outlierów.
+- **KPI**: Rentownosc brutto (pusta przy < 30 ofertach), Obciazenie placy, Oferty najmu na 10 tys, Saldo migracji na 1000, Nowa podaz na 1000, Zmiana ceny m2 %, Zmiana czynszu m2 %.
+- **Rozklad czynszu**: percentyle P01, P25, mediana, P75 i P99 czynszu za m² (zamiast boxplotu na stronie EDA).
+- **Liczebności**: liczba ofert (DISTINCTCOUNT id), liczba wierszy i liczba outlierów, osobno dla sprzedaży i najmu.
 - **GUS**: Wynagrodzenie 2024, Bezrobocie 2024.
 
 Automatyczne tabele dat są wyłączone, bo model ma własny kalendarz.
@@ -185,3 +189,8 @@ Automatyczne tabele dat są wyłączone, bo model ma własny kalendarz.
 6. **Deduplikacja**: kolumna `ostatnia_oferta` zamiast osobnej, zdeduplikowanej kopii tabeli. Efekt ten sam, model mniejszy.
 7. **Rentowność**: liczona na wspólnym okresie 11.2023–06.2024 (filtr w mierze), bo najem zaczyna się od 11.2023.
 8. **Przygotowanie danych w Power Query** zamiast w Pythonie. Python posłużył tylko do niezależnej kontroli liczb z profilowania.
+9. **Outliery**: kolumna `czy_outlier` w Power Query. Mediany KPI pomijają ok. 2% wierszy, a rentowność całego zbioru zmienia się tylko z 5,83% na 5,85%.
+10. **Minimalna liczebność**: miara rentowności zwraca pustą wartość, gdy w komórce jest mniej niż 30 ofert.
+11. **D_Odleglosc**: nowy wymiar, potrzebny do weryfikacji H4 w obu tabelach faktów naraz.
+
+Pełny raport roboczy etapu 2: `raport/SAB_etap2_raport_roboczy.docx` / `.pdf`.
