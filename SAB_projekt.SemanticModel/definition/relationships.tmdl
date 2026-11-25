@@ -1,0 +1,28 @@
+relationship d9f0d9b4-1bd1-5891-a501-171abe96d3a6
+	fromColumn: F_Sprzedaz.city
+	toColumn: D_Miasto.city
+
+relationship 2d148ebe-6db3-540b-8763-182c84008a82
+	fromColumn: F_Najem.city
+	toColumn: D_Miasto.city
+
+relationship 9ce5323c-a9a9-59ed-88b0-6487157e8992
+	fromColumn: F_GUS_Rok.city
+	toColumn: D_Miasto.city
+
+relationship 639bcaba-8338-5fd8-83c6-23c213d38817
+	fromColumn: F_Sprzedaz.miesiac
+	toColumn: D_Kalendarz.Date
+
+relationship ad57c8e7-5b9a-5cec-8681-022ff55dd954
+	fromColumn: F_Najem.miesiac
+	toColumn: D_Kalendarz.Date
+
+relationship 825dad41-bdf4-5669-b3e3-7bda72d0eae5
+	fromColumn: F_Sprzedaz.segment_metraz
+	toColumn: D_Segment.segment
+
+relationship c9b224b9-4c80-5def-b350-0d6bdee2215a
+	fromColumn: F_Najem.segment_metraz
+	toColumn: D_Segment.segment
+

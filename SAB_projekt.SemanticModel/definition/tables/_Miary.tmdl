@@ -1,0 +1,113 @@
+table _Miary
+	lineageTag: e0998ebf-91d0-53d3-9133-852190ba617b
+
+	measure 'Mediana ceny m2' = MEDIAN(F_Sprzedaz[cena_m2])
+		formatString: #,0
+		displayFolder: Ceny
+		lineageTag: b0ee3d0f-179f-5708-8630-c0620b2edb5a
+
+	measure 'Mediana czynszu m2' = MEDIAN(F_Najem[cena_m2])
+		formatString: #,0.00
+		displayFolder: Ceny
+		lineageTag: b03e5ba3-e50a-57b8-846d-1ad573acffd9
+
+	measure 'Rentownosc brutto' =
+			VAR okres = FILTER(ALL(D_Kalendarz[Date]), D_Kalendarz[Date] >= DATE(2023,11,1))
+			RETURN DIVIDE(
+			    CALCULATE([Mediana czynszu m2]) * 12,
+			    CALCULATE([Mediana ceny m2], KEEPFILTERS(okres)))
+		formatString: 0.00%
+		displayFolder: KPI
+		lineageTag: 7f0223fd-2538-5de5-87a8-d3ab56cad145
+
+	measure 'Obciazenie placy' =
+			VAR czynsz = CALCULATE(MEDIAN(F_Najem[price]), F_Najem[segment_metraz] = "40-60")
+			VAR placa  = CALCULATE(AVERAGE(F_GUS_Rok[wynagrodzenie]), F_GUS_Rok[rok] = 2024)
+			RETURN DIVIDE(czynsz, placa)
+		formatString: 0.0%
+		displayFolder: KPI
+		lineageTag: e0d8c8c4-8903-5aec-96f8-812240ca962e
+
+	measure 'Oferty najmu na 10 tys' =
+			DIVIDE(DISTINCTCOUNT(F_Najem[id]),
+			       CALCULATE(SUM(F_GUS_Rok[ludnosc]), F_GUS_Rok[rok] = 2024)) * 10000
+		formatString: 0.00
+		displayFolder: KPI
+		lineageTag: 0ad68de0-2801-523d-93db-81bc5bcc3714
+
+	measure 'Saldo migracji na 1000' =
+			-- BDL podaje saldo już na 1000 ludności; dla kilku miast średnia ważona ludnością
+			VAR t = FILTER(F_GUS_Rok, F_GUS_Rok[rok] = 2024)
+			RETURN DIVIDE(
+			    SUMX(t, F_GUS_Rok[saldo_migracji_na_1000] * F_GUS_Rok[ludnosc]),
+			    SUMX(t, F_GUS_Rok[ludnosc]))
+		formatString: 0.00
+		displayFolder: KPI
+		lineageTag: f982b183-f3a7-5223-a475-b24618176ca3
+
+	measure 'Nowa podaz na 1000' =
+			DIVIDE(CALCULATE(SUM(F_GUS_Rok[mieszkania_oddane]), F_GUS_Rok[rok] = 2024),
+			       CALCULATE(SUM(F_GUS_Rok[ludnosc]), F_GUS_Rok[rok] = 2024)) * 1000
+		formatString: 0.00
+		displayFolder: KPI
+		lineageTag: dc216696-eda6-5315-a7ff-77ebd0458a30
+
+	measure 'Zmiana ceny m2 %' =
+			VAR p = CALCULATE([Mediana ceny m2], D_Kalendarz[Date] = DATE(2023,8,1))
+			VAR k = CALCULATE([Mediana ceny m2], D_Kalendarz[Date] = DATE(2024,6,1))
+			RETURN DIVIDE(k - p, p)
+		formatString: 0.0%
+		displayFolder: KPI
+		lineageTag: c0874daf-8b5c-5cc8-92e6-430fae95640a
+
+	measure 'Liczba ofert sprzedazy' = DISTINCTCOUNT(F_Sprzedaz[id])
+		formatString: #,0
+		displayFolder: Liczebnosci
+		lineageTag: 03c046ee-de42-5535-9a37-aec4a4ad8c4c
+
+	measure 'Liczba ofert najmu' = DISTINCTCOUNT(F_Najem[id])
+		formatString: #,0
+		displayFolder: Liczebnosci
+		lineageTag: 6ad4c38f-fbc6-5fef-a989-24c336c2694f
+
+	measure 'Liczba wierszy sprzedazy' = COUNTROWS(F_Sprzedaz)
+		formatString: #,0
+		displayFolder: Liczebnosci
+		lineageTag: cad13d35-0ee8-5c9e-8f98-3c78e78dbec0
+
+	measure 'Liczba wierszy najmu' = COUNTROWS(F_Najem)
+		formatString: #,0
+		displayFolder: Liczebnosci
+		lineageTag: 67e45f81-a21f-5ef4-bd71-4646d2a9d78b
+
+	measure 'Wynagrodzenie 2024' = CALCULATE(AVERAGE(F_GUS_Rok[wynagrodzenie]), F_GUS_Rok[rok] = 2024)
+		formatString: #,0
+		displayFolder: GUS
+		lineageTag: 37bdefc2-9a82-5d00-9e9e-0428c74e6923
+
+	measure 'Bezrobocie 2024' = CALCULATE(AVERAGE(F_GUS_Rok[bezrobocie]), F_GUS_Rok[rok] = 2024) / 100
+		formatString: 0.0%
+		displayFolder: GUS
+		lineageTag: 839f22ce-0d28-5677-a5ac-f6d9bd190432
+
+	column Kolumna
+		dataType: string
+		isHidden
+		lineageTag: 751b7fd5-264a-58ae-8991-52077ed570f4
+		summarizeBy: none
+		sourceColumn: Kolumna
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Miary = m
+		mode: import
+		source =
+				let
+				    Zrodlo = #table(type table [Kolumna = text], {})
+				in
+				    Zrodlo
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

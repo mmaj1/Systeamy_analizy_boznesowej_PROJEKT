@@ -1,0 +1,69 @@
+table D_Kalendarz
+	lineageTag: bae93b57-f5f3-5c42-b8be-125b06d1a546
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 4dd3ad8c-3758-57d3-b0b5-135928c500de
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Rok
+		dataType: int64
+		formatString: 0
+		lineageTag: 1bcf04a6-8770-5127-bc8c-e6cc501d1460
+		summarizeBy: none
+		sourceColumn: Rok
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miesiac
+		dataType: string
+		lineageTag: 0f386a26-65ed-5c3f-90b3-f042a38a1e79
+		summarizeBy: none
+		sourceColumn: Miesiac
+		sortByColumn: MiesiacNr
+
+		annotation SummarizationSetBy = Automatic
+
+	column MiesiacNr
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d1d0da22-9c99-5bd3-bf80-9c94f972fd48
+		summarizeBy: none
+		sourceColumn: MiesiacNr
+
+		annotation SummarizationSetBy = Automatic
+
+	/// miesiące, w których są dane i sprzedaży, i najmu
+	column wspolny_okres
+		dataType: boolean
+		lineageTag: c0e62374-5a56-5cc2-a3d9-151a3de6034e
+		summarizeBy: none
+		sourceColumn: wspolny_okres
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Kalendarz = m
+		mode: import
+		source =
+				let
+				    // Kalendarz miesięczny 2023-08 .. 2024-06 (oferty mają datę = 1. dzień miesiąca)
+				    Daty = List.Transform({0..10}, each Date.AddMonths(#date(2023, 8, 1), _)),
+				    Lista = Table.FromList(Daty, Splitter.SplitByNothing(), {"Date"}),
+				    Tabela = Table.TransformColumnTypes(Lista, {{"Date", type date}}),
+				    Rok = Table.AddColumn(Tabela, "Rok", each Date.Year([Date]), Int64.Type),
+				    Miesiac = Table.AddColumn(Rok, "Miesiac", each Date.ToText([Date], [Format = "yyyy-MM", Culture = "en-US"]), type text),
+				    MiesiacNr = Table.AddColumn(Miesiac, "MiesiacNr", each Date.Year([Date]) * 100 + Date.Month([Date]), Int64.Type),
+				    // wspólny okres sprzedaży i najmu: 11.2023-06.2024
+				    WspolnyOkres = Table.AddColumn(MiesiacNr, "wspolny_okres", each [Date] >= #date(2023, 11, 1), type logical)
+				in
+				    WspolnyOkres
+
+	annotation PBI_ResultType = Table
+

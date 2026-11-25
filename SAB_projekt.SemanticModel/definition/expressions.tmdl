@@ -1,0 +1,28 @@
+expression SciezkaDanych = "C:\Users\DELL\Desktop\Systeamy_analizy_boznesowej_PROJEKT\dane\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 2e259d8e-dc18-510e-b1c5-81a0ce83a6e1
+
+	annotation PBI_ResultType = Text
+
+/// Surowe eksporty GUS w formacie długim (nie ładowane do modelu)
+expression GUS_Surowe =
+		let
+		    // Eksporty GUS BDL (format długi: Kod | Nazwa | wymiary | Rok | Wartosc); separator ; i przecinek dziesiętny
+		    Pliki = Folder.Files(SciezkaDanych),
+		    PlikiGus = Table.SelectRows(Pliki, each Text.EndsWith(Text.Lower([Folder Path]), "\gus\")),
+		    Wczytaj = (plik as text, kolumny as list) as table =>
+		        Table.Skip(Csv.Document(Table.SelectRows(PlikiGus, each [Name] = plik){0}[Content], [Delimiter = ";", Columns = kolumny, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), 1),
+		    Oznacz = (t as table, wskaznik as text) as table =>
+		        Table.AddColumn(Table.SelectColumns(t, {"Kod", "Nazwa", "Rok", "Wartosc"}), "wskaznik", each wskaznik, type text),
+		    wynagrodzenie = Oznacz(Table.SelectRows(Wczytaj("gus_wynagrodzenie.csv", {"Kod", "Nazwa", "Wymiar1", "Rok", "Wartosc", "Jednostka", "Atrybut", "Pusta"}), each [Wymiar1] = "ogółem"), "wynagrodzenie"),
+		    ludnosc = Oznacz(Table.SelectRows(Wczytaj("gus_ludnosc.csv", {"Kod", "Nazwa", "Wymiar1", "Rok", "Wartosc", "Jednostka", "Atrybut", "Pusta"}), each [Wymiar1] = "ludność w tysiącach"), "ludnosc"),
+		    bezrobocie = Oznacz(Table.SelectRows(Wczytaj("gus_stopa.csv", {"Kod", "Nazwa", "Wymiar1", "Rok", "Wartosc", "Jednostka", "Atrybut", "Pusta"}), each [Wymiar1] = "ogółem"), "bezrobocie"),
+		    saldo_migracji_na_1000 = Oznacz(Table.SelectRows(Wczytaj("gus_saldo_migracji.csv", {"Kod", "Nazwa", "Wymiar1", "Wymiar2", "Rok", "Wartosc", "Jednostka", "Atrybut", "Pusta"}), each [Wymiar1] = "saldo migracji ogółem na 1000 ludności" and [Wymiar2] = "ogółem"), "saldo_migracji_na_1000"),
+		    mieszkania_oddane = Oznacz(Table.SelectRows(Wczytaj("gus_mieszkanie_oddane.csv", {"Kod", "Nazwa", "Wymiar1", "Wymiar2", "Rok", "Wartosc", "Jednostka", "Atrybut", "Pusta"}), each [Wymiar1] = "ogółem" and [Wymiar2] = "mieszkania"), "mieszkania_oddane"),
+		    Polaczone = Table.Combine({wynagrodzenie, ludnosc, bezrobocie, saldo_migracji_na_1000, mieszkania_oddane}),
+		    Typy = Table.TransformColumnTypes(Polaczone, {{"Kod", type text}, {"Nazwa", type text}, {"Rok", Int64.Type}, {"Wartosc", type number}}, "pl-PL")
+		in
+		    Typy
+	lineageTag: 80218929-90b6-55da-9e18-356faa63eb63
+
+	annotation PBI_ResultType = Table
+

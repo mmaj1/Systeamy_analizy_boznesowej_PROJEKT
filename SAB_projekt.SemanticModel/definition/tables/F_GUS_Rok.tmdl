@@ -1,0 +1,99 @@
+table F_GUS_Rok
+	lineageTag: b802967a-cad8-582b-bfa0-9b57082b5cff
+
+	column kod
+		dataType: string
+		lineageTag: 929db6b4-5ee5-5957-8b44-4a336c7f3e9b
+		summarizeBy: none
+		sourceColumn: kod
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 0eeee848-d2a3-5b1f-b5e5-ed5d75f0abe9
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column rok
+		dataType: int64
+		formatString: 0
+		lineageTag: e8ac0604-7bd3-55e6-bc55-19399ad52b90
+		summarizeBy: none
+		sourceColumn: rok
+
+		annotation SummarizationSetBy = Automatic
+
+	/// przeciętne miesięczne wynagrodzenie brutto, zł
+	column wynagrodzenie
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 3b6bc077-4364-5220-ba83-35ef3d4e1662
+		summarizeBy: none
+		sourceColumn: wynagrodzenie
+
+		annotation SummarizationSetBy = Automatic
+
+	/// ludność ogółem (BDL podaje w tys., przeliczone na osoby)
+	column ludnosc
+		dataType: int64
+		formatString: #,0
+		lineageTag: 64d44529-94d1-532a-9d95-060a01014f52
+		summarizeBy: none
+		sourceColumn: ludnosc
+
+		annotation SummarizationSetBy = Automatic
+
+	/// stopa bezrobocia rejestrowanego, %
+	column bezrobocie
+		dataType: double
+		formatString: 0.0
+		lineageTag: ccceb1ce-fb39-502e-b077-eac383c06246
+		summarizeBy: none
+		sourceColumn: bezrobocie
+
+		annotation SummarizationSetBy = Automatic
+
+	/// saldo migracji ogółem na 1000 ludności
+	column saldo_migracji_na_1000
+		dataType: double
+		formatString: 0.00
+		lineageTag: f659ab74-9997-53cc-9b1d-d9d424740afb
+		summarizeBy: none
+		sourceColumn: saldo_migracji_na_1000
+
+		annotation SummarizationSetBy = Automatic
+
+	/// mieszkania oddane do użytkowania (ogółem), rocznie
+	column mieszkania_oddane
+		dataType: int64
+		formatString: #,0
+		lineageTag: c5cfaf02-a0ce-5db6-9045-3fe23c5518d5
+		summarizeBy: none
+		sourceColumn: mieszkania_oddane
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_GUS_Rok = m
+		mode: import
+		source =
+				let
+				    // Jedna tabela: kod | rok | wskaźniki (pivot po wskaznik), tylko 15 miast z D_Miasto
+				    Kody = List.Buffer(D_Miasto[kod_gus]),
+				    TylkoMiasta = Table.SelectRows(GUS_Surowe, each List.Contains(Kody, [Kod])),
+				    BezNazwy = Table.RemoveColumns(TylkoMiasta, {"Nazwa"}),
+				    Przestawione = Table.Pivot(BezNazwy, {"wynagrodzenie", "ludnosc", "bezrobocie", "saldo_migracji_na_1000", "mieszkania_oddane"}, "wskaznik", "Wartosc"),
+				    // BDL podaje ludność w tysiącach
+				    LudnoscOsoby = Table.TransformColumns(Przestawione, {{"ludnosc", each Number.Round(_ * 1000), type number}}),
+				    ZMiastem = Table.NestedJoin(LudnoscOsoby, {"Kod"}, D_Miasto, {"kod_gus"}, "D_Miasto", JoinKind.LeftOuter),
+				    Rozwiniete = Table.ExpandTableColumn(ZMiastem, "D_Miasto", {"city"}),
+				    Zmienione = Table.RenameColumns(Rozwiniete, {{"Kod", "kod"}, {"Rok", "rok"}}),
+				    Typy = Table.TransformColumnTypes(Zmienione, {{"wynagrodzenie", type number}, {"ludnosc", Int64.Type}, {"bezrobocie", type number}, {"saldo_migracji_na_1000", type number}, {"mieszkania_oddane", Int64.Type}, {"city", type text}}),
+				    Kolejnosc = Table.ReorderColumns(Typy, {"kod", "city", "rok", "wynagrodzenie", "ludnosc", "bezrobocie", "saldo_migracji_na_1000", "mieszkania_oddane"})
+				in
+				    Kolejnosc
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "SAB_projekt"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "20b13efe-301a-48fc-afbb-1e8a1793a357"
+  }
+}
