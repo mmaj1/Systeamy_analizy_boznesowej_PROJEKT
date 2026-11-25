@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 45.65919049694412
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1150.412395543779,
+            "y": 353.82959524847206
+          },
+          "nodeIndex": "_Miary",
+          "nodeLineageTag": "e0998ebf-91d0-53d3-9133-852190ba617b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 626.6487161176882,
+            "y": 691.8530318640876
+          },
+          "nodeIndex": "D_Kalendarz",
+          "nodeLineageTag": "bae93b57-f5f3-5c42-b8be-125b06d1a546",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 912.91219319025333,
+            "y": -50
+          },
+          "nodeIndex": "D_Miasto",
+          "nodeLineageTag": "c796b2d1-274a-50f7-9931-c9010ee48478",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 805.659190496944
+          },
+          "nodeIndex": "D_Segment",
+          "nodeLineageTag": "755da5eb-f9d7-5fad-8841-20eb6adfbd9c",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 623.50583957903609,
+            "y": 175.67675100781412
+          },
+          "nodeIndex": "F_GUS_Rok",
+          "nodeLineageTag": "b802967a-cad8-582b-bfa0-9b57082b5cff",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 339.84372460321072,
+            "y": 501.40062512185114
+          },
+          "nodeIndex": "F_Najem",
+          "nodeLineageTag": "87e94255-0122-5e99-bc9d-d188baaf934e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 916.412395543779,
+            "y": 402.60273018163889
+          },
+          "nodeIndex": "F_Sprzedaz",
+          "nodeLineageTag": "6af64387-e039-5ed7-8d4d-4875a8649dd7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 50,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

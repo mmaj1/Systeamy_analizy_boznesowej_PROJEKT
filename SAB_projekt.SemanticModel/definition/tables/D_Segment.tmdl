@@ -1,0 +1,47 @@
+table D_Segment
+	lineageTag: 755da5eb-f9d7-5fad-8841-20eb6adfbd9c
+
+	column segment
+		dataType: string
+		lineageTag: 6d317ee2-a6aa-58f8-b4f1-0532567d344e
+		summarizeBy: none
+		sourceColumn: segment
+		sortByColumn: kolejnosc
+
+		annotation SummarizationSetBy = Automatic
+
+	column kolejnosc
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0d1139e2-6b5c-529a-a810-f8e1008d18d2
+		summarizeBy: none
+		sourceColumn: kolejnosc
+
+		annotation SummarizationSetBy = Automatic
+
+	column opis
+		dataType: string
+		lineageTag: c13089a6-cd27-5041-9e8e-064d41180943
+		summarizeBy: none
+		sourceColumn: opis
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Segment = m
+		mode: import
+		source =
+				let
+				    Zrodlo = #table(
+				        type table [segment = text, kolejnosc = Int64.Type, opis = text],
+				        {
+				            {"<40", 1, "poniżej 40 m²"},
+				            {"40-60", 2, "40–60 m²"},
+				            {"60-80", 3, "60–80 m²"},
+				            {">80", 4, "80 m² i więcej"}
+				        })
+				in
+				    Zrodlo
+
+	annotation PBI_ResultType = Table
+

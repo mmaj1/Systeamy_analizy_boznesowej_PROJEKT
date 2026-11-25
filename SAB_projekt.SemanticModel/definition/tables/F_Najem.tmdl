@@ -1,0 +1,366 @@
+table F_Najem
+	lineageTag: 87e94255-0122-5e99-bc9d-d188baaf934e
+
+	/// identyfikator oferty (powtarza się między miesiącami)
+	column id
+		dataType: string
+		lineageTag: 564184cf-5ac1-55e2-a9f1-7d3dbc8276ee
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	/// miasto (klucz do D_Miasto)
+	column city
+		dataType: string
+		lineageTag: 0aa8cd20-13f2-55a3-ba7f-29b1664f98a2
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 6b2d62cc-385b-5ef8-96df-a8efef594844
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	/// metraż, m²
+	column squareMeters
+		dataType: double
+		formatString: 0.00
+		lineageTag: c89a2422-39ea-5382-8e15-cc9431cee293
+		summarizeBy: none
+		sourceColumn: squareMeters
+
+		annotation SummarizationSetBy = Automatic
+
+	column rooms
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b1db7ee-25f8-5612-968a-b577ddaea190
+		summarizeBy: none
+		sourceColumn: rooms
+
+		annotation SummarizationSetBy = Automatic
+
+	column floor
+		dataType: int64
+		formatString: 0
+		lineageTag: 39c12e28-30a2-5db7-bd63-c5425bff7d16
+		summarizeBy: none
+		sourceColumn: floor
+
+		annotation SummarizationSetBy = Automatic
+
+	column floorCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 8719afb0-30ef-599e-ab39-51087b21afca
+		summarizeBy: none
+		sourceColumn: floorCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column buildYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 99045b1b-64f7-5c9e-baee-f2eacdd5d6e1
+		summarizeBy: none
+		sourceColumn: buildYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 93703e76-9ade-5502-869f-09e42f938344
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitude
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 78e0a01e-f3a7-5857-98d2-88d1ee11491c
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	/// odległość od centrum, km
+	column centreDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: e89ef7fa-cfb4-54e2-86e7-d21883593777
+		summarizeBy: none
+		sourceColumn: centreDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column poiCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 784f8463-3d8d-5907-becd-7960571c5d47
+		summarizeBy: none
+		sourceColumn: poiCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column schoolDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: e19618ad-92ff-5172-a268-3e508e69c841
+		summarizeBy: none
+		sourceColumn: schoolDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column clinicDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: d2f5f029-f480-50cd-be1c-2942fcdd1d3c
+		summarizeBy: none
+		sourceColumn: clinicDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column postOfficeDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: 10759255-cc99-54c8-b62e-17afdc1b3c21
+		summarizeBy: none
+		sourceColumn: postOfficeDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column kindergartenDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: 5ed51cfd-9675-5b49-a373-fa1248689c76
+		summarizeBy: none
+		sourceColumn: kindergartenDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurantDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: bbcd1f0a-8d54-58e3-8790-0fd7546087a8
+		summarizeBy: none
+		sourceColumn: restaurantDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	/// odległość do najbliższej uczelni, km
+	column collegeDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: 6ee55327-d18e-5550-b8ab-56cedb6ab32a
+		summarizeBy: none
+		sourceColumn: collegeDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column pharmacyDistance
+		dataType: double
+		formatString: 0.00
+		lineageTag: c7683649-6be3-5f66-8cb2-83ae6afaf8e9
+		summarizeBy: none
+		sourceColumn: pharmacyDistance
+
+		annotation SummarizationSetBy = Automatic
+
+	column ownership
+		dataType: string
+		lineageTag: 3354366b-7932-504b-a013-c49cacc2c70c
+		summarizeBy: none
+		sourceColumn: ownership
+
+		annotation SummarizationSetBy = Automatic
+
+	column buildingMaterial
+		dataType: string
+		lineageTag: 9524cb23-110c-54df-bd5b-465256a94df0
+		summarizeBy: none
+		sourceColumn: buildingMaterial
+
+		annotation SummarizationSetBy = Automatic
+
+	column condition
+		dataType: string
+		lineageTag: 832dcc28-eac8-54b5-84a4-dc13c16b4b65
+		summarizeBy: none
+		sourceColumn: condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column hasParkingSpace
+		dataType: boolean
+		lineageTag: e0e2b832-7d47-5ead-ba49-2cc34ab1007b
+		summarizeBy: none
+		sourceColumn: hasParkingSpace
+
+		annotation SummarizationSetBy = Automatic
+
+	column hasBalcony
+		dataType: boolean
+		lineageTag: 35d8f47a-2ff8-5a1e-9882-c4eb9796d5cf
+		summarizeBy: none
+		sourceColumn: hasBalcony
+
+		annotation SummarizationSetBy = Automatic
+
+	column hasElevator
+		dataType: boolean
+		lineageTag: 64cf3cf2-ca56-513b-8ff4-8d9f6a7e6489
+		summarizeBy: none
+		sourceColumn: hasElevator
+
+		annotation SummarizationSetBy = Automatic
+
+	column hasSecurity
+		dataType: boolean
+		lineageTag: 5c4a2a86-f240-546b-acbe-7be21f2b03d7
+		summarizeBy: none
+		sourceColumn: hasSecurity
+
+		annotation SummarizationSetBy = Automatic
+
+	column hasStorageRoom
+		dataType: boolean
+		lineageTag: 7f60477d-db4b-54ff-81d4-5302490d03d7
+		summarizeBy: none
+		sourceColumn: hasStorageRoom
+
+		annotation SummarizationSetBy = Automatic
+
+	/// czynsz miesięczny, zł
+	column price
+		dataType: double
+		formatString: #,0
+		lineageTag: f005009d-5006-544a-a4c2-437b3508d052
+		summarizeBy: none
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+	/// miesiąc pliku (1. dzień miesiąca)
+	column miesiac
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 0a7ba5eb-7ac3-51b9-938d-eede6212c924
+		summarizeBy: none
+		sourceColumn: miesiac
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// czynsz za m², zł
+	column cena_m2
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 8562cca9-7865-5206-8c97-979cc6dc0722
+		summarizeBy: none
+		sourceColumn: cena_m2
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_metraz
+		dataType: string
+		lineageTag: 6df5423e-4f13-58da-963a-ad227e6038df
+		summarizeBy: none
+		sourceColumn: segment_metraz
+		sortByColumn: segment_metraz_nr
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_metraz_nr
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0511f514-b264-5f49-a4d1-3ea948368ef3
+		summarizeBy: none
+		sourceColumn: segment_metraz_nr
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_odleglosc
+		dataType: string
+		lineageTag: 9baf117c-cd79-53f5-b5bc-6993b813da06
+		summarizeBy: none
+		sourceColumn: segment_odleglosc
+		sortByColumn: segment_odleglosc_nr
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_odleglosc_nr
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 48bbab55-47b9-5a77-a953-f05572476465
+		summarizeBy: none
+		sourceColumn: segment_odleglosc_nr
+
+		annotation SummarizationSetBy = Automatic
+
+	/// buildYear >= 2020
+	column nowy_budynek
+		dataType: boolean
+		lineageTag: 83aee33e-c6d4-50bd-9e2e-a71b1552873e
+		summarizeBy: none
+		sourceColumn: nowy_budynek
+
+		annotation SummarizationSetBy = Automatic
+
+	/// wiersz z ostatniego miesiąca, w którym wystąpiło dane id
+	column ostatnia_oferta
+		dataType: boolean
+		lineageTag: b0de70f0-0a1f-577f-a8e8-bded836cc62a
+		summarizeBy: none
+		sourceColumn: ostatnia_oferta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Najem = m
+		mode: import
+		source =
+				let
+				    // Oferty najmu z Kaggle (price = czynsz miesięczny); separator dziesiętny: kropka (en-US)
+				    Kolumny = {"id", "city", "type", "squareMeters", "rooms", "floor", "floorCount", "buildYear", "latitude", "longitude", "centreDistance", "poiCount", "schoolDistance", "clinicDistance", "postOfficeDistance", "kindergartenDistance", "restaurantDistance", "collegeDistance", "pharmacyDistance", "ownership", "buildingMaterial", "condition", "hasParkingSpace", "hasBalcony", "hasElevator", "hasSecurity", "hasStorageRoom", "price"},
+				    Pliki = Folder.Files(SciezkaDanych),
+				    PlikiKaggle = Table.SelectRows(Pliki, each Text.EndsWith(Text.Lower([Folder Path]), "\kaggle\") and Text.Lower([Extension]) = ".csv"),
+				    PlikiFiltr = Table.SelectRows(PlikiKaggle, each Text.Contains([Name], "rent")),
+				    Wczytane = Table.AddColumn(PlikiFiltr, "Dane", each Table.Skip(Csv.Document([Content], [Delimiter = ",", Columns = Kolumny, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), 1)),
+				    Wybrane = Table.SelectColumns(Wczytane, {"Name", "Dane"}),
+				    ZmienionaNazwa = Table.RenameColumns(Wybrane, {{"Name", "Source.Name"}}),
+				    Rozwiniete = Table.ExpandTableColumn(ZmienionaNazwa, "Dane", Kolumny),
+				    // miesiąc z nazwy pliku: apartments_..._2023_08.csv -> 2023-08-01
+				    DodanyMiesiac = Table.AddColumn(Rozwiniete, "miesiac", each let s = Text.Start(Text.End([Source.Name], 11), 7) in #date(Number.From(Text.Start(s, 4)), Number.From(Text.End(s, 2)), 1), type date),
+				    UsunietaNazwa = Table.RemoveColumns(DodanyMiesiac, {"Source.Name"}),
+				    Typy = Table.TransformColumnTypes(UsunietaNazwa, {{"id", type text}, {"city", type text}, {"type", type text}, {"ownership", type text}, {"buildingMaterial", type text}, {"condition", type text}, {"squareMeters", type number}, {"latitude", type number}, {"longitude", type number}, {"centreDistance", type number}, {"schoolDistance", type number}, {"clinicDistance", type number}, {"postOfficeDistance", type number}, {"kindergartenDistance", type number}, {"restaurantDistance", type number}, {"collegeDistance", type number}, {"pharmacyDistance", type number}, {"price", type number}, {"rooms", Int64.Type}, {"floor", Int64.Type}, {"floorCount", Int64.Type}, {"buildYear", Int64.Type}, {"poiCount", Int64.Type}}, "en-US"),
+				    // kolumny has*: tekst yes/no -> true/false
+				    TakNie = Table.TransformColumns(Typy, List.Transform({"hasParkingSpace", "hasBalcony", "hasElevator", "hasSecurity", "hasStorageRoom"}, (c) => {c, (v) => if v = "yes" then true else if v = "no" then false else null, type logical})),
+				    CenaM2 = Table.AddColumn(TakNie, "cena_m2", each [price] / [squareMeters], type number),
+				    SegmentMetraz = Table.AddColumn(CenaM2, "segment_metraz", each if [squareMeters] < 40 then "<40" else if [squareMeters] < 60 then "40-60" else if [squareMeters] < 80 then "60-80" else ">80", type text),
+				    SegmentMetrazNr = Table.AddColumn(SegmentMetraz, "segment_metraz_nr", each if [squareMeters] < 40 then 1 else if [squareMeters] < 60 then 2 else if [squareMeters] < 80 then 3 else 4, Int64.Type),
+				    SegmentOdleglosc = Table.AddColumn(SegmentMetrazNr, "segment_odleglosc", each if [centreDistance] = null then null else if [centreDistance] < 2 then "<2 km" else if [centreDistance] < 5 then "2-5 km" else if [centreDistance] < 10 then "5-10 km" else ">10 km", type text),
+				    SegmentOdlegloscNr = Table.AddColumn(SegmentOdleglosc, "segment_odleglosc_nr", each if [centreDistance] = null then null else if [centreDistance] < 2 then 1 else if [centreDistance] < 5 then 2 else if [centreDistance] < 10 then 3 else 4, Int64.Type),
+				    NowyBudynek = Table.AddColumn(SegmentOdlegloscNr, "nowy_budynek", each if [buildYear] = null then null else [buildYear] >= 2020, type logical),
+				    // deduplikacja: ta sama oferta (id) wraca w kolejnych miesiącach -> flaga ostatniego wystąpienia
+				    OstatniMiesiac = Table.Group(NowyBudynek, {"id"}, {{"ostatni_miesiac", each List.Max([miesiac]), type date}}),
+				    OstatniMiesiacKlucz = Table.RenameColumns(OstatniMiesiac, {{"id", "id_ostatni"}}),
+				    Scalone = Table.Join(NowyBudynek, "id", OstatniMiesiacKlucz, "id_ostatni", JoinKind.LeftOuter),
+				    OstatniaOferta = Table.AddColumn(Scalone, "ostatnia_oferta", each [miesiac] = [ostatni_miesiac], type logical),
+				    Wynik = Table.RemoveColumns(OstatniaOferta, {"id_ostatni", "ostatni_miesiac"})
+				in
+				    Wynik
+
+	annotation PBI_ResultType = Table
+

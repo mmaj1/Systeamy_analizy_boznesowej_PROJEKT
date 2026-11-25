@@ -1,0 +1,70 @@
+table D_Miasto
+	lineageTag: c796b2d1-274a-50f7-9931-c9010ee48478
+
+	/// klucz z Kaggle
+	column city
+		dataType: string
+		lineageTag: 2c57e50a-1d15-54c7-8426-5145acd7b7f0
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column miasto
+		dataType: string
+		lineageTag: 34c05118-f2c2-5648-a871-14461b5f3517
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: miasto
+
+		annotation SummarizationSetBy = Automatic
+
+	column nazwa_gus
+		dataType: string
+		lineageTag: 11a8f7d8-f648-59e1-ac4c-4bd924a14462
+		summarizeBy: none
+		sourceColumn: nazwa_gus
+
+		annotation SummarizationSetBy = Automatic
+
+	/// klucz z BDL (7 cyfr)
+	column kod_gus
+		dataType: string
+		lineageTag: ade82ee9-8fc9-5c5a-a9ad-18670e60b650
+		summarizeBy: none
+		sourceColumn: kod_gus
+
+		annotation SummarizationSetBy = Automatic
+
+	column teryt_powiat
+		dataType: string
+		lineageTag: e4a49a01-f683-518d-8dbf-94d445ee0e20
+		summarizeBy: none
+		sourceColumn: teryt_powiat
+
+		annotation SummarizationSetBy = Automatic
+
+	column wojewodztwo
+		dataType: string
+		lineageTag: a5f06934-8ccc-5247-b037-e0ad8994c461
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: wojewodztwo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Miasto = m
+		mode: import
+		source =
+				let
+				    // Tabela mapowania miast (ręczna): city (Kaggle) <-> kod_gus (BDL)
+				    Pliki = Folder.Files(SciezkaDanych),
+				    Plik = Table.SelectRows(Pliki, each Text.EndsWith(Text.Lower([Folder Path]), "\mapowanie\") and [Name] = "miasta.csv"){0}[Content],
+				    Zrodlo = Csv.Document(Plik, [Delimiter = ";", Columns = {"city", "miasto", "nazwa_gus", "kod_gus", "teryt_powiat", "wojewodztwo"}, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    BezNaglowka = Table.Skip(Zrodlo, 1),
+				    Typy = Table.TransformColumnTypes(BezNaglowka, {{"city", type text}, {"miasto", type text}, {"nazwa_gus", type text}, {"kod_gus", type text}, {"teryt_powiat", type text}, {"wojewodztwo", type text}})
+				in
+				    Typy
+
+	annotation PBI_ResultType = Table
+
