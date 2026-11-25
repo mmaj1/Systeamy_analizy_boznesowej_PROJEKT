@@ -26,3 +26,10 @@ relationship c9b224b9-4c80-5def-b350-0d6bdee2215a
 	fromColumn: F_Najem.segment_metraz
 	toColumn: D_Segment.segment
 
+relationship 1fc1ebef-e002-5e34-b38e-b5e7a2c4851f
+	fromColumn: F_Sprzedaz.segment_odleglosc
+	toColumn: D_Odleglosc.segment_odleglosc
+
+relationship 11dd2041-374f-5eab-84df-cc77bf4bac9c
+	fromColumn: F_Najem.segment_odleglosc
+	toColumn: D_Odleglosc.segment_odleglosc

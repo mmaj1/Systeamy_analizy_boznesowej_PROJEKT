@@ -1,0 +1,46 @@
+table D_Odleglosc
+	lineageTag: 8de86c7b-7288-564e-b1ea-7cc6a493055f
+
+	column segment_odleglosc
+		dataType: string
+		lineageTag: e5313009-f8de-5f56-a507-177ba43d284c
+		summarizeBy: none
+		sourceColumn: segment_odleglosc
+		sortByColumn: kolejnosc
+
+		annotation SummarizationSetBy = Automatic
+
+	column kolejnosc
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: 6567a8c2-9562-5d86-82da-de4119338f97
+		summarizeBy: none
+		sourceColumn: kolejnosc
+
+		annotation SummarizationSetBy = Automatic
+
+	column opis
+		dataType: string
+		lineageTag: 4f61d4ce-6e57-530e-8b13-10516a96149b
+		summarizeBy: none
+		sourceColumn: opis
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Odleglosc = m
+		mode: import
+		source =
+				let
+				    Zrodlo = #table(
+				        type table [segment_odleglosc = text, kolejnosc = Int64.Type, opis = text],
+				        {
+				            {"<2 km", 1, "do 2 km od centrum"},
+				            {"2-5 km", 2, "2–5 km"},
+				            {"5-10 km", 3, "5–10 km"},
+				            {">10 km", 4, "powyżej 10 km"}
+				        })
+				in
+				    Zrodlo
+
+	annotation PBI_ResultType = Table

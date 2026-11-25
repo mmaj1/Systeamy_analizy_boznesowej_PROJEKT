@@ -32,8 +32,8 @@ table D_Kalendarz
 
 	column MiesiacNr
 		dataType: int64
-		isHidden
 		formatString: 0
+		isHidden
 		lineageTag: d1d0da22-9c99-5bd3-bf80-9c94f972fd48
 		summarizeBy: none
 		sourceColumn: MiesiacNr
@@ -66,4 +66,3 @@ table D_Kalendarz
 				    WspolnyOkres
 
 	annotation PBI_ResultType = Table
-

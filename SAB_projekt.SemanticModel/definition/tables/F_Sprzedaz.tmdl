@@ -76,8 +76,8 @@ table F_Sprzedaz
 	column latitude
 		dataType: double
 		formatString: 0.000000
-		lineageTag: f6ddda0a-95b6-5dac-9d70-b227b6059874
 		dataCategory: Latitude
+		lineageTag: f6ddda0a-95b6-5dac-9d70-b227b6059874
 		summarizeBy: none
 		sourceColumn: latitude
 
@@ -86,8 +86,8 @@ table F_Sprzedaz
 	column longitude
 		dataType: double
 		formatString: 0.000000
-		lineageTag: 017f7e51-cbf4-508a-aaac-33352f444eac
 		dataCategory: Longitude
+		lineageTag: 017f7e51-cbf4-508a-aaac-33352f444eac
 		summarizeBy: none
 		sourceColumn: longitude
 
@@ -283,8 +283,8 @@ table F_Sprzedaz
 
 	column segment_metraz_nr
 		dataType: int64
-		isHidden
 		formatString: 0
+		isHidden
 		lineageTag: afb58b2a-192e-5a3e-807b-187c2a1e83d5
 		summarizeBy: none
 		sourceColumn: segment_metraz_nr
@@ -302,8 +302,8 @@ table F_Sprzedaz
 
 	column segment_odleglosc_nr
 		dataType: int64
-		isHidden
 		formatString: 0
+		isHidden
 		lineageTag: 5c3a4971-9c64-5375-bb8c-f888224f442d
 		summarizeBy: none
 		sourceColumn: segment_odleglosc_nr
@@ -316,6 +316,25 @@ table F_Sprzedaz
 		lineageTag: cd0ba68d-06e2-537c-86c0-08ba8a454867
 		summarizeBy: none
 		sourceColumn: nowy_budynek
+
+		annotation SummarizationSetBy = Automatic
+
+	/// cena/czynsz za m2 poza 1.-99. percentylem w mieście
+	column czy_outlier
+		dataType: boolean
+		lineageTag: ac0cf242-152f-5027-b23b-fe87d462a900
+		summarizeBy: none
+		sourceColumn: czy_outlier
+
+		annotation SummarizationSetBy = Automatic
+
+	/// przedział cena_m2 do histogramu (co 5 zł najem, co 1000 zł sprzedaż)
+	column cena_m2_przedzial
+		dataType: double
+		formatString: #,0
+		lineageTag: c7334373-cd89-5b58-9312-0c0d2169594f
+		summarizeBy: none
+		sourceColumn: cena_m2_przedzial
 
 		annotation SummarizationSetBy = Automatic
 
@@ -353,14 +372,21 @@ table F_Sprzedaz
 				    SegmentOdleglosc = Table.AddColumn(SegmentMetrazNr, "segment_odleglosc", each if [centreDistance] = null then null else if [centreDistance] < 2 then "<2 km" else if [centreDistance] < 5 then "2-5 km" else if [centreDistance] < 10 then "5-10 km" else ">10 km", type text),
 				    SegmentOdlegloscNr = Table.AddColumn(SegmentOdleglosc, "segment_odleglosc_nr", each if [centreDistance] = null then null else if [centreDistance] < 2 then 1 else if [centreDistance] < 5 then 2 else if [centreDistance] < 10 then 3 else 4, Int64.Type),
 				    NowyBudynek = Table.AddColumn(SegmentOdlegloscNr, "nowy_budynek", each if [buildYear] = null then null else [buildYear] >= 2020, type logical),
+				    // outliery: cena (czynsz) za m2 poza 1.-99. percentylem w danym mieście
+				    Percentyle = Table.Group(NowyBudynek, {"city"}, {{"p01", each List.Percentile([cena_m2], 0.01, [PercentileMode = PercentileMode.ExcelInc]), type number}, {"p99", each List.Percentile([cena_m2], 0.99, [PercentileMode = PercentileMode.ExcelInc]), type number}}),
+				    PercentyleKlucz = Table.RenameColumns(Percentyle, {{"city", "city_p"}}),
+				    ZPercentylami = Table.Join(NowyBudynek, "city", PercentyleKlucz, "city_p", JoinKind.LeftOuter),
+				    CzyOutlier = Table.AddColumn(ZPercentylami, "czy_outlier", each [cena_m2] < [p01] or [cena_m2] > [p99], type logical),
+				    BezPercentyli = Table.RemoveColumns(CzyOutlier, {"city_p", "p01", "p99"}),
+				    // przedziały do histogramu (co 1000 zł)
+				    Przedzial = Table.AddColumn(BezPercentyli, "cena_m2_przedzial", each Number.RoundDown([cena_m2] / 1000) * 1000, type number),
 				    // deduplikacja: ta sama oferta (id) wraca w kolejnych miesiącach -> flaga ostatniego wystąpienia
-				    OstatniMiesiac = Table.Group(NowyBudynek, {"id"}, {{"ostatni_miesiac", each List.Max([miesiac]), type date}}),
+				    OstatniMiesiac = Table.Group(Przedzial, {"id"}, {{"ostatni_miesiac", each List.Max([miesiac]), type date}}),
 				    OstatniMiesiacKlucz = Table.RenameColumns(OstatniMiesiac, {{"id", "id_ostatni"}}),
-				    Scalone = Table.Join(NowyBudynek, "id", OstatniMiesiacKlucz, "id_ostatni", JoinKind.LeftOuter),
+				    Scalone = Table.Join(Przedzial, "id", OstatniMiesiacKlucz, "id_ostatni", JoinKind.LeftOuter),
 				    OstatniaOferta = Table.AddColumn(Scalone, "ostatnia_oferta", each [miesiac] = [ostatni_miesiac], type logical),
 				    Wynik = Table.RemoveColumns(OstatniaOferta, {"id_ostatni", "ostatni_miesiac"})
 				in
 				    Wynik
 
 	annotation PBI_ResultType = Table
-
